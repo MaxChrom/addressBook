@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ContactController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+{# <div class="example-wrapper">
+<form action="">
+	<input type="text" placeholder="First Name">
+	<input type="text" placeholder="Second Name">
+	<input type="text" placeholder="Email">
+	<input type="text" placeholder="Phone">
+	<textarea name="note" id="" cols="30" rows="2" placeholder="note"></textarea>
+</form> #}
+<div class="example-wrapper">
+
+<button type="submit" onclick="window.location='{{ path('/create') }}'">Submit</button>
+
+
+
+    {% for contact in contacts %}
+        {# <p>{{contact.firstName}}</p> #}
+        <p>{{contact.lastName}}</p>
+
+    {% endfor %}
+</div>
+
+{# {% for key, value in contact %}
+	{{ key }}:
+	{{ value }}
+{% endfor %} #}
+
+
+{# {{ form_start(form) }}
+{{ form_widget(form) }}
+<button type="submit">Save</button>
+{{ form_end(form) }} #}
+
+
+{% endblock %}
