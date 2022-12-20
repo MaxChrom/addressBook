@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        <div class="d-flex justify-content-center" style="margin-top:1rem; margin-button:0">
+
+            {% for message in app.flashes('success') %}
+
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align:center">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+
+            {% endfor %}
+        </div>
+
+        <div class="row d-flex justify-content-center" style="margin: 0">
+            <div class="col-6" style="padding:25px; border: 0px">
+            {{form(form)}}
+        </div>
+    </div>
+
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+    </script>
+{% endblock %}
+
+
+{% endblock %}

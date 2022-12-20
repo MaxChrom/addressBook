@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "prettier-plugin-twig-melody": "^0.4.6"
+  },
+  "devDependencies": {
+    "bootstrap": "^5.2.3"
   }
 }

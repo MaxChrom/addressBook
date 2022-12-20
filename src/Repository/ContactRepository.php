@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Contact;
+use App\Factory\ContactFactory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\BrowserKit\Response;
 
 /**
  * @extends ServiceEntityRepository<Contact>
@@ -20,19 +22,19 @@ class ContactRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Contact::class);
     }
-
-    public function save(Contact $entity, bool $flush = false): void
+    
+    public function save(Contact $contact, bool $flush = false): void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->persist($contact);
 
-        if ($flush) {
+        // if ($flush) {
             $this->getEntityManager()->flush();
-        }
+        // }
     }
 
-    public function remove(Contact $entity, bool $flush = false): void
+    public function remove(Contact $contact, bool $flush = false): void
     {
-        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->remove($contact);
 
         if ($flush) {
             $this->getEntityManager()->flush();
