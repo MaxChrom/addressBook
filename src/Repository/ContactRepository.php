@@ -23,22 +23,16 @@ class ContactRepository extends ServiceEntityRepository
         parent::__construct($registry, Contact::class);
     }
     
-    public function save(Contact $contact, bool $flush = false): void
+    public function save(Contact $contact): void
     {
         $this->getEntityManager()->persist($contact);
-
-        // if ($flush) {
-            $this->getEntityManager()->flush();
-        // }
+        $this->getEntityManager()->flush();
     }
 
-    public function remove(Contact $contact, bool $flush = false): void
+    public function remove(Contact $contact): void
     {
         $this->getEntityManager()->remove($contact);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->getEntityManager()->flush();
     }
 
 //    /**

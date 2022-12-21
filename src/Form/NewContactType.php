@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 ///Form generating with types we suppose to have
 
 
@@ -24,9 +23,13 @@ class NewContactType extends AbstractType
         $builder
             ->add('firstName', TextType::class)
             ->add('lastName',TextType::class)
-            ->add('phone', TelType::class)
+            ->add('phone', TelType::class,[
+            'required' => false,
+            ])
             ->add('email', EmailType::class)
-            ->add('note', TextareaType::class)
+            ->add('note', TextareaType::class, [
+                'required' => false,
+            ])
             ->add('save', SubmitType::class)
             ;
     }
