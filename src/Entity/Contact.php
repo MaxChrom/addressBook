@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
-// use App\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
@@ -15,6 +14,7 @@ class Contact
     #[ORM\Column]
     private ?int $id = null;
 
+
     #[ORM\Column(length: 255)]
     #[Assert\Length(
         min: 2,
@@ -23,6 +23,7 @@ class Contact
         maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
     )]
     private ?string $firstName;
+
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(
@@ -33,14 +34,11 @@ class Contact
     )]
     private ?string $lastName;
 
+
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Regex('/^\d{5,15}$/')]
-    // #[Assert\Regex('/^\(0\)[0-9]*$')]
-    // #[Assert\Type(
-    //     type: 'integer',
-    //     message: 'The value {{ value }} is not a valid {{ type }}.',
-    // )]
     private ?string $phone;
+
 
     #[ORM\Column(length: 255)]
     #[Assert\Email(
@@ -48,9 +46,12 @@ class Contact
     )]
     private ?string $email;
 
-    #[ORM\Column(type: 'text', nullable: true)]
 
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $note = null;
+
+
+
 
     public function getId(): ?int
     {

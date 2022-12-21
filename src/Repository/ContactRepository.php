@@ -3,10 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Contact;
-use App\Factory\ContactFactory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\BrowserKit\Response;
+
 
 /**
  * @extends ServiceEntityRepository<Contact>

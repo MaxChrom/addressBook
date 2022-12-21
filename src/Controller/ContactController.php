@@ -5,15 +5,14 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Factory\ContactFactory;
 use App\Repository\ContactRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\All;
 use App\Form\NewContactType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
+
 class ContactController extends AbstractController
 {
 
@@ -22,16 +21,9 @@ class ContactController extends AbstractController
         $this->contactRepository = $contactRepository;
     }
 
-    #[Route('/', name:'homePage')]
 
-
-    public function homePage(): RedirectResponse
-    {
-        return $this->redirectToRoute("contacts");
-    }
 
     #[Route('/contacts/create', name:'newContact')]
-
     public function createContact(Request $request): Response
     {
         $contact = new Contact();
@@ -45,22 +37,15 @@ class ContactController extends AbstractController
             return $this->redirectToRoute('contacts');
         }
 
-        return $this->render('form.html.twig', [
+        return $this->render('form.html.twig', 
+        [
             'form' => $form->createView(),
         ]);
     }
 
 
 
-    // public function allContacts()
-    // {
-    //     $contacts = $this->contactRepository->findAll();
-    //     return $this->render("allContacts.html.twig", [
-    //         'contacts' => $contacts,
-    //     ]);
-    // }
-    #[Route('/contacts', name: 'contacts')]
-    
+    #[Route('/', name: 'contacts')]
     public function allContacts(PaginatorInterface $paginator, Request $request)
     {
         $contacts = $this->contactRepository->findAll();
@@ -71,16 +56,20 @@ class ContactController extends AbstractController
             5
         );
 
-        return $this->render('allContacts.html.twig', [
+        return $this->render('allContacts.html.twig', 
+        [
             'contacts' => $paginatedContacts,
         ]);
     }
 
-    #[Route('/contacts/{id}', name: 'contactId')]
+
+
+    #[Route('/{id}', name: 'contactId')]
     public function contactDetails($id) : Response
     {
         $contact = $this->contactRepository->find($id);
-        return $this->render('contactDetails.html.twig', [
+        return $this->render('contactDetails.html.twig', 
+        [
             'id' => $contact->getId(),
             'firstName' => $contact->getFirstName(),
             'lastName' => $contact->getLastName(),
@@ -90,8 +79,9 @@ class ContactController extends AbstractController
         ]);
     }
 
-    #[Route('/contacts/update/{lastName}/{id}', name: 'updateContact')]
 
+
+    #[Route('/{lastName}/{id}', name: 'updateContact')]
     public function updateContact($id, Request $request) 
     {
         $contact = $this->contactRepository->find($id);
@@ -104,11 +94,14 @@ class ContactController extends AbstractController
             return $this->redirectToRoute('contacts');
         }
 
-        return $this->render('form.html.twig', [
+        return $this->render('form.html.twig', 
+        [
             'form' => $form,
         ]);
        
     }
+
+    
 
     #[Route('/contacts/delete/{id}', name: 'deleteContact')]
     public function deleteContact ($id): RedirectResponse
@@ -118,7 +111,6 @@ class ContactController extends AbstractController
             $this->contactRepository->remove($contact);
             $this->addFlash('success', $contact->getFirstName() . " " . $contact->getLastName() . " was successfully deleted");
         }
-
 
         return $this->redirectToRoute('contacts');
     }

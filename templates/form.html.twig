@@ -4,31 +4,26 @@
 {% block body %}
 
     <div class="row">
-        <div class="col d-flex justify-content-end" style="margin:2rem 0">
-            <a href="{{path("contacts")}}">Go back</a>
+        <div class="col d-flex justify-content-end" style="margin:2rem 2rem">
+            <a href="{{path("contacts")}}">
+                <button type="button" class="btn btn-secondary">Back</button>
+            </a>
         </div>
     </div>
 
-
-
     <div class="container">
-
         <div class="d-flex justify-content-center" style="margin-top:1rem; margin-button:0">
-
             {% for message in app.flashes('success') %}
-
-            <div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align:center">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-
-
+                <div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align:center">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             {% endfor %}
         </div>
 
         <div class="row d-flex justify-content-center" style="margin: 0">
             <div class="col-6" style="padding:25px; border: 0px">
-            {{form(form)}}
+                {{form(form)}}
         </div>
     </div>
 
