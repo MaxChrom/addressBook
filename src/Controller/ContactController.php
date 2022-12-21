@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\All;
 use App\Form\NewContactType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-
+use Knp\Component\Pager\PaginatorInterface;
 class ContactController extends AbstractController
 {
 
@@ -50,13 +50,29 @@ class ContactController extends AbstractController
         ]);
     }
 
-    #[Route('/contacts', name:'contacts')]
+
+
+    // public function allContacts()
+    // {
+    //     $contacts = $this->contactRepository->findAll();
+    //     return $this->render("allContacts.html.twig", [
+    //         'contacts' => $contacts,
+    //     ]);
+    // }
+    #[Route('/contacts', name: 'contacts')]
     
-    public function allContacts()
+    public function allContacts(PaginatorInterface $paginator, Request $request)
     {
         $contacts = $this->contactRepository->findAll();
-        return $this->render("allContacts.html.twig", [
-            'contacts' => $contacts,
+
+        $paginatedContacts = $paginator->paginate(
+            $contacts,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('allContacts.html.twig', [
+            'contacts' => $paginatedContacts,
         ]);
     }
 
@@ -76,7 +92,7 @@ class ContactController extends AbstractController
 
     #[Route('/contacts/update/{lastName}/{id}', name: 'updateContact')]
 
-    public function updateContact($id, $lastName, Request $request) 
+    public function updateContact($id, Request $request) 
     {
         $contact = $this->contactRepository->find($id);
         $form = $this->createForm(NewContactType::class, $contact);

@@ -6,7 +6,6 @@ use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
 // use App\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Optional;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
@@ -16,10 +15,7 @@ class Contact
     #[ORM\Column]
     private ?int $id = null;
 
-
-
     #[ORM\Column(length: 255)]
-    //First name validation
     #[Assert\Length(
         min: 2,
         max: 50,
@@ -28,9 +24,7 @@ class Contact
     )]
     private ?string $firstName;
 
-
     #[ORM\Column(length: 255)]
-    //Second name validation
     #[Assert\Length(
         min: 2,
         max: 50,
@@ -40,8 +34,6 @@ class Contact
     private ?string $lastName;
 
     #[ORM\Column(nullable: true)]
-    //Phone number validation
-    #[Assert\PositiveOrZero]
     private ?int $phone = null;
 
     #[ORM\Column(length: 255)]

@@ -2,6 +2,11 @@
 
 {% block body %}
 
+
+
+
+
+
 {% for message in app.flashes('success') %}
 
 	<div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align:center">
@@ -40,7 +45,32 @@
             <td>{{contact.lastName}}</td>
             <td>{{contact.phone}}</td>
             <td>{{contact.email}}</td>
-            <td>{{contact.note}}</td>
+            {# <td>{{contact.note}}</td> #}
+            <td> 
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLong" data-whatever="{{contact.note}}">Note</button>
+
+
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Note:</h5>
+			</div>
+            <div class="modal-body" style="text-align:center; word-wrap: break-word">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                
+				{# <button type="button" class="btn btn-primary">Change</button> #}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+            </td>
+
             <td>
                 <a href="{{path("updateContact", {id: contact.id, lastName: contact.lastName})}}">
                     <i class="bi bi-pencil-square"></i>
@@ -50,7 +80,9 @@
                     <i class="bi bi-trash-fill"></i>
                 </a>
                 <br>
-                <a href="{{path("contactId", {id: contact.id})}}">Details</a>
+                <a href="{{path("contactId", {id: contact.id})}}">
+                    <i class="bi bi-three-dots"></i>
+                </a>
 
             </td>
         </tr>
@@ -61,26 +93,23 @@
 </table>
 
 </div>
-<div class="d-flex justify-content-center" style="margin: 1rem 5rem 1rem 5rem">
-
-<nav aria-label="Page navigation example">
-	<ul class="pagination">
-		<li class="page-item">
-			<a class="page-link" href="#">Previous</a>
-		</li>
-		<li class="page-item">
-			<a class="page-link" href="#">1</a>
-		</li>
-		<li class="page-item">
-			<a class="page-link" href="#">2</a>
-		</li>
-		<li class="page-item">
-			<a class="page-link" href="#">3</a>
-		</li>
-		<li class="page-item">
-			<a class="page-link" href="#">Next</a>
-		</li>
-	</ul>
-</nav>
+    <div class="d-flex justify-content-center" style="margin: 1rem 5rem 1rem 5rem">
+        <div class="pagination">	
+            {{ knp_pagination_render(contacts, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
+        </div>
+    </div>
 </div>
+
+<script>
+document.querySelector('#exampleModalLong').addEventListener('show.bs.modal', function (event) {
+
+        let button = event.relatedTarget; // Button that triggered the modal
+        let note = button.dataset.whatever; // Extract info from data-* attributes
+        let modal = this;
+        modal.querySelector('.modal-body').textContent = note;
+    });
+</script>
+
+
+
 {% endblock %}

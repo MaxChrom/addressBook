@@ -3,13 +3,3 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
-
-# contact_list:
-#     path: /
-#     # the controller value has the format 'controller_class::method_name'
-#     controller: App\Controller\ContactController::index
-
-# contact_form:
-#     path: /create
-#     # the controller value has the format 'controller_class::method_name'
-#     controller: App\Controller\ContactController::createContact
