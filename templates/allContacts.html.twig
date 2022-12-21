@@ -2,6 +2,22 @@
 
 {% block body %}
 
+{% for message in app.flashes('success') %}
+
+	<div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align:center">
+		{{ message }}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+
+
+{% endfor %}
+
+
+<div class="row">
+    <div class="col d-flex justify-content-end" style="margin:2rem 2rem">
+        <a href="{{path("newContact")}}">Create new contact</a>
+    </div>
+</div>
 
 <div class="d-flex justify-content-center" style="margin: 1rem 5rem 1rem 5rem">
 
@@ -13,8 +29,6 @@
 			<th>Phone Number</th>
             <th>Email</th>
             <th>Note</th>
-
-
 		</tr>
 	</thead>
 	<tbody>
@@ -28,15 +42,16 @@
             <td>{{contact.email}}</td>
             <td>{{contact.note}}</td>
             <td>
-                <a href="#">
+                <a href="{{path("updateContact", {id: contact.id, lastName: contact.lastName})}}">
                     <i class="bi bi-pencil-square"></i>
                 </a>
-
                 <br>
-
-                <a href="#">
+                <a href="{{path("deleteContact", {id: contact.id})}}">
                     <i class="bi bi-trash-fill"></i>
                 </a>
+                <br>
+                <a href="{{path("contactId", {id: contact.id})}}">Details</a>
+
             </td>
         </tr>
 

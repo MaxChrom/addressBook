@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\All;
 use App\Form\NewContactType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class ContactController extends AbstractController
@@ -21,8 +22,15 @@ class ContactController extends AbstractController
         $this->contactRepository = $contactRepository;
     }
 
+    #[Route('/', name:'homePage')]
 
-    #[Route('/contacts/create')]
+
+    public function homePage(): RedirectResponse
+    {
+        return $this->redirectToRoute("contacts");
+    }
+
+    #[Route('/contacts/create', name:'newContact')]
 
     public function createContact(Request $request): Response
     {
@@ -30,9 +38,7 @@ class ContactController extends AbstractController
         $form = $this->createForm(newContactType::class, $contact);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) { //  && $form->isValid()
-            // perform some action, such as saving the entity to the database
-            // return $this->redirectToRoute('/contact/create');
+        if ($form->isSubmitted() && $form->isValid()) { 
             $contact = ContactFactory::createForm($form);
             $this->contactRepository->save($contact);
             $this->addFlash('success', "New contact was successfully created!");
@@ -52,5 +58,52 @@ class ContactController extends AbstractController
         return $this->render("allContacts.html.twig", [
             'contacts' => $contacts,
         ]);
+    }
+
+    #[Route('/contacts/{id}', name: 'contactId')]
+    public function contactDetails($id) : Response
+    {
+        $contact = $this->contactRepository->find($id);
+        return $this->render('contactDetails.html.twig', [
+            'id' => $contact->getId(),
+            'firstName' => $contact->getFirstName(),
+            'lastName' => $contact->getLastName(),
+            'phone' => $contact->getPhone(),
+            'email' => $contact->getEmail(),
+            'note' => $contact->getNote(),
+        ]);
+    }
+
+    #[Route('/contacts/update/{lastName}/{id}', name: 'updateContact')]
+
+    public function updateContact($id, $lastName, Request $request) 
+    {
+        $contact = $this->contactRepository->find($id);
+        $form = $this->createForm(NewContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()&& $form->isValid()) { 
+            $this->contactRepository->save($contact);
+            $this->addFlash('success', $contact->getFirstName() ."". $contact->getLastName(). "was successfully updated");
+            return $this->redirectToRoute('contacts');
+        }
+
+        return $this->render('form.html.twig', [
+            'form' => $form,
+        ]);
+       
+    }
+
+    #[Route('/contacts/delete/{id}', name: 'deleteContact')]
+    public function deleteContact ($id): RedirectResponse
+    {
+        $contact = $this->contactRepository->find($id);
+        if(!empty($contact)){
+            $this->contactRepository->remove($contact);
+            $this->addFlash('success', $contact->getFirstName() . " " . $contact->getLastName() . " was successfully deleted");
+        }
+
+
+        return $this->redirectToRoute('contacts');
     }
 }
