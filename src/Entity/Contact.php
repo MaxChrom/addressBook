@@ -33,8 +33,14 @@ class Contact
     )]
     private ?string $lastName;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $phone = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Regex('/^\d{5,15}$/')]
+    // #[Assert\Regex('/^\(0\)[0-9]*$')]
+    // #[Assert\Type(
+    //     type: 'integer',
+    //     message: 'The value {{ value }} is not a valid {{ type }}.',
+    // )]
+    private ?string $phone;
 
     #[ORM\Column(length: 255)]
     #[Assert\Email(
@@ -42,7 +48,8 @@ class Contact
     )]
     private ?string $email;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
+
     private ?string $note = null;
 
     public function getId(): ?int

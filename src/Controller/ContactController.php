@@ -68,7 +68,7 @@ class ContactController extends AbstractController
         $paginatedContacts = $paginator->paginate(
             $contacts,
             $request->query->getInt('page', 1),
-            10
+            5
         );
 
         return $this->render('allContacts.html.twig', [
@@ -100,7 +100,7 @@ class ContactController extends AbstractController
 
         if ($form->isSubmitted()&& $form->isValid()) { 
             $this->contactRepository->save($contact);
-            $this->addFlash('success', $contact->getFirstName() ."". $contact->getLastName(). "was successfully updated");
+            $this->addFlash('success', $contact->getFirstName() ." ". $contact->getLastName(). " was successfully updated");
             return $this->redirectToRoute('contacts');
         }
 

@@ -12,7 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 ///Form generating with types we suppose to have
 
 
@@ -23,8 +24,8 @@ class NewContactType extends AbstractType
         $builder
             ->add('firstName', TextType::class)
             ->add('lastName',TextType::class)
-            ->add('phone', TelType::class,[
-            'required' => false,
+            ->add('phone', NumberType::class, [
+                'required' => false,
             ])
             ->add('email', EmailType::class)
             ->add('note', TextareaType::class, [
